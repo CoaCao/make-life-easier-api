@@ -1,17 +1,43 @@
+from datetime import datetime, timedelta, UTC
+from typing import Optional
+
 from sqlalchemy import asc, desc
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Query, Session
 from src.models.product_model import Product
 from src.schemas.product_schema import ProductAdd, ProductEdit
 
 
-def get_all(db: Session, skip: int = 0, limit: int = 10, sort_by: str = "expiry_date", sort_order: str = "asc"):
-    query = db.query(Product).filter(Product.enabled == 1)
+def get_all(db: Session, skip: int = 0, limit: int = 10,
+        sort_by: str = "expiry_date", sort_order: str = "asc",
+        name: str | None = None,
+        days_to_expire: int | None = None):
+    query = db.query(Product)
+    query = apply_filters(query, name, days_to_expire)
+    total = query.count()
 
     sort_column = getattr(Product, sort_by, None)
     if sort_column:
         query = query.order_by(asc(sort_column) if sort_order == "asc" else desc(sort_column))
 
-    return query.offset(skip).limit(limit).all()
+    products = query.offset(skip).limit(limit).all()
+
+    return {"total": total, "items": products}
+
+
+def apply_filters(query: Query,
+        name: Optional[str] = None,
+        days_to_expire: Optional[int] = None) -> Query:
+    query = query.filter(Product.enabled == 1)
+
+    if days_to_expire is not None:
+        now = datetime.now(UTC).date()
+        future = now + timedelta(days=days_to_expire)
+        query = query.filter(Product.expiry_date >= now, Product.expiry_date <= future)
+
+    if name is not None:
+        query = query.filter(Product.name.ilike(f"%{name}%"))
+
+    return query
 
 
 def get_by_id(db: Session, product_id: int):
