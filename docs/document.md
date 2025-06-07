@@ -15,14 +15,14 @@
 
 <h3 id="get_products_products__get-parameters">Parameters</h3>
 
-| Name           | In    | Type    | Required | Description                       |
-|----------------|-------|---------|----------|-----------------------------------|
-| skip           | query | integer | false    | none                              |
-| limit          | query | integer | false    | none                              |
-| sort_by        | query | string  | false    | name \| expiry_date \| added_date |
-| sort_order     | query | string  | false    | asc \| desc                       |
-| name           | query | any     | false    | none                              |
-| days_to_expire | query | any     | false    | none                              |
+| Name           | In    | Type         | Required | Description                       |
+|----------------|-------|--------------|----------|-----------------------------------|
+| skip           | query | integer      | false    | none                              |
+| limit          | query | integer      | false    | none                              |
+| sort_by        | query | string       | false    | name \| expiry_date \| added_date |
+| sort_order     | query | string       | false    | asc \| desc                       |
+| name           | query | string(date) | false    | none                              |
+| days_to_expire | query | string(date) | false    | none                              |
 
 <h3 id="get_products_products__get-responses">Responses</h3>
 
@@ -30,7 +30,6 @@
 |--------|----------------------|---------------------|---------------------------------------------------|
 | 200    | OK                   | Successful Response | [ProductListResponse](#schemaproductlistresponse) |
 | 422    | Unprocessable Entity | Validation Error    | [HTTPValidationError](#schemahttpvalidationerror) |
-
 
 > 200 Response
 
@@ -134,7 +133,6 @@
 | 200    | OK                   | Successful Response | [ProductResponse](#schemaproductresponse)         |
 | 422    | Unprocessable Entity | Validation Error    | [HTTPValidationError](#schemahttpvalidationerror) |
 
-
 ## Get Product By Id
 
 <a id="opIdget_product_products__product_id__get"></a>
@@ -178,7 +176,6 @@
 | 200    | OK                   | Successful Response | [ProductResponse](#schemaproductresponse)         |
 | 422    | Unprocessable Entity | Validation Error    | [HTTPValidationError](#schemahttpvalidationerror) |
 
-
 ## Edit Product
 
 <a id="opIdedit_product_products__product_id__put"></a>
@@ -208,7 +205,6 @@
 |--------|----------------------|---------------------|---------------------------------------------------|
 | 200    | OK                   | Successful Response | [ProductResponse](#schemaproductresponse)         |
 | 422    | Unprocessable Entity | Validation Error    | [HTTPValidationError](#schemahttpvalidationerror) |
-
 
 > 200 Response
 
