@@ -9,7 +9,7 @@
 
 ## Search Products
 
-<a id="opIdget_products_products__get"></a>
+<a id="opIdget_products__get"></a>
 
 `GET /products/`
 
@@ -81,7 +81,7 @@
 
 ## Add Product
 
-<a id="opIdadd_product_products__post"></a>
+<a id="opIdadd_product__post"></a>
 
 `POST /products/`
 
@@ -102,6 +102,13 @@
 |------|------|---------------------------------|----------|-------------|
 | body | body | [ProductAdd](#schemaproductadd) | true     | none        |
 
+<h3 id="add_product_products__post-responses">Responses</h3>
+
+| Status | Meaning              | Description         | Schema                                            |
+|--------|----------------------|---------------------|---------------------------------------------------|
+| 200    | OK                   | Successful Response | [ProductResponse](#schemaproductresponse)         |
+| 422    | Unprocessable Entity | Validation Error    | [HTTPValidationError](#schemahttpvalidationerror) |
+
 > 200 Response
 
 ```json
@@ -125,13 +132,6 @@
   "added_date": "2025-06-07"
 }
 ```
-
-<h3 id="add_product_products__post-responses">Responses</h3>
-
-| Status | Meaning              | Description         | Schema                                            |
-|--------|----------------------|---------------------|---------------------------------------------------|
-| 200    | OK                   | Successful Response | [ProductResponse](#schemaproductresponse)         |
-| 422    | Unprocessable Entity | Validation Error    | [HTTPValidationError](#schemahttpvalidationerror) |
 
 ## Get Product By Id
 
@@ -145,6 +145,13 @@
 |------------|------|---------|----------|-------------|
 | product_id | path | integer | true     | none        |
 
+<h3 id="get_product_products__product_id__get-responses">Responses</h3>
+
+| Status | Meaning              | Description         | Schema                                            |
+|--------|----------------------|---------------------|---------------------------------------------------|
+| 200    | OK                   | Successful Response | [ProductResponse](#schemaproductresponse)         |
+| 422    | Unprocessable Entity | Validation Error    | [HTTPValidationError](#schemahttpvalidationerror) |
+
 > 200 Response
 
 ```json
@@ -169,16 +176,9 @@
 }
 ```
 
-<h3 id="get_product_products__product_id__get-responses">Responses</h3>
-
-| Status | Meaning              | Description         | Schema                                            |
-|--------|----------------------|---------------------|---------------------------------------------------|
-| 200    | OK                   | Successful Response | [ProductResponse](#schemaproductresponse)         |
-| 422    | Unprocessable Entity | Validation Error    | [HTTPValidationError](#schemahttpvalidationerror) |
-
 ## Edit Product
 
-<a id="opIdedit_product_products__product_id__put"></a>
+<a id="opIdedit_product__put"></a>
 
 `PUT /products/{product_id}`
 
@@ -232,7 +232,7 @@
 
 ## Remove Product
 
-<a id="opIdremove_product_products__product_id__delete"></a>
+<a id="opIdremove_product__delete"></a>
 
 `DELETE /products/{product_id}`
 
@@ -270,9 +270,6 @@
 <h2 id="tocS_HTTPValidationError">HTTPValidationError</h2>
 <!-- backwards compatibility -->
 <a id="schemahttpvalidationerror"></a>
-<a id="schema_HTTPValidationError"></a>
-<a id="tocShttpvalidationerror"></a>
-<a id="tocshttpvalidationerror"></a>
 
 ```json
 {
@@ -300,9 +297,6 @@ HTTPValidationError
 <h2 id="tocS_ProductAdd">ProductAdd</h2>
 <!-- backwards compatibility -->
 <a id="schemaproductadd"></a>
-<a id="schema_ProductAdd"></a>
-<a id="tocSproductadd"></a>
-<a id="tocsproductadd"></a>
 
 ```json
 {
@@ -312,8 +306,6 @@ HTTPValidationError
 }
 
 ```
-
-ProductAdd
 
 ### Properties
 
@@ -326,9 +318,6 @@ ProductAdd
 <h2 id="tocS_ProductEdit">ProductEdit</h2>
 <!-- backwards compatibility -->
 <a id="schemaproductedit"></a>
-<a id="schema_ProductEdit"></a>
-<a id="tocSproductedit"></a>
-<a id="tocsproductedit"></a>
 
 ```json
 {
@@ -338,8 +327,6 @@ ProductAdd
 }
 
 ```
-
-ProductEdit
 
 ### Properties
 
@@ -352,9 +339,6 @@ ProductEdit
 <h2 id="tocS_ProductListResponse">ProductListResponse</h2>
 <!-- backwards compatibility -->
 <a id="schemaproductlistresponse"></a>
-<a id="schema_ProductListResponse"></a>
-<a id="tocSproductlistresponse"></a>
-<a id="tocsproductlistresponse"></a>
 
 ```json
 {
@@ -372,8 +356,6 @@ ProductEdit
 
 ```
 
-ProductListResponse
-
 ### Properties
 
 | Name  | Type                                        | Required | Restrictions | Description |
@@ -384,9 +366,6 @@ ProductListResponse
 <h2 id="tocS_ProductResponse">ProductResponse</h2>
 <!-- backwards compatibility -->
 <a id="schemaproductresponse"></a>
-<a id="schema_ProductResponse"></a>
-<a id="tocSproductresponse"></a>
-<a id="tocsproductresponse"></a>
 
 ```json
 {
@@ -398,8 +377,6 @@ ProductListResponse
 }
 
 ```
-
-ProductResponse
 
 ### Properties
 
@@ -414,9 +391,6 @@ ProductResponse
 <h2 id="tocS_ValidationError">ValidationError</h2>
 <!-- backwards compatibility -->
 <a id="schemavalidationerror"></a>
-<a id="schema_ValidationError"></a>
-<a id="tocSvalidationerror"></a>
-<a id="tocsvalidationerror"></a>
 
 ```json
 {
