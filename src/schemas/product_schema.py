@@ -18,9 +18,12 @@ class ProductEdit(ProductBase):
     pass
 
 
-class ProductResponse(ProductBase):
-    added_date: date
+class ProductResponse(BaseModel):
     id: int
+    name: str
+    image_url: str
+    expiry_date: date
+    added_date: date
 
     class Config:
         from_attributes = True  # Pydantic v2
