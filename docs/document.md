@@ -2,16 +2,13 @@
 
 <h1 id="make-life-easier-api">Make Life Easier API v1.0</h1>
 
-> Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above
-> or the mobile navigation menu.
-
 <h1 id="make-life-easier-api-products">Products</h1>
 
 ## Search Products
 
 <a id="opIdget_products__get"></a>
 
-`GET /products/`
+### `GET /products/`
 
 <h3 id="get_products_products__get-parameters">Parameters</h3>
 
@@ -83,8 +80,7 @@
 
 <a id="opIdadd_product__post"></a>
 
-`POST /products/`
-
+### `POST /products/`
 
 > Body parameter
 
@@ -137,7 +133,7 @@
 
 <a id="opIdget_product_products__product_id__get"></a>
 
-`GET /products/{product_id}`
+### `GET /products/{product_id}`
 
 <h3 id="get_product_products__product_id__get-parameters">Parameters</h3>
 
@@ -180,7 +176,14 @@
 
 <a id="opIdedit_product__put"></a>
 
-`PUT /products/{product_id}`
+### `PUT /products/{product_id}`
+
+<h3 id="edit_product_products__product_id__put-parameters">Parameters</h3>
+
+| Name       | In   | Type                              | Required | Description |
+|------------|------|-----------------------------------|----------|-------------|
+| product_id | path | integer                           | true     | none        |
+| body       | body | [ProductEdit](#schemaproductedit) | true     | none        |
 
 > Body parameter
 
@@ -191,13 +194,6 @@
   "expiry_date": "2019-08-24"
 }
 ```
-
-<h3 id="edit_product_products__product_id__put-parameters">Parameters</h3>
-
-| Name       | In   | Type                              | Required | Description |
-|------------|------|-----------------------------------|----------|-------------|
-| product_id | path | integer                           | true     | none        |
-| body       | body | [ProductEdit](#schemaproductedit) | true     | none        |
 
 <h3 id="edit_product_products__product_id__put-responses">Responses</h3>
 
@@ -234,7 +230,7 @@
 
 <a id="opIdremove_product__delete"></a>
 
-`DELETE /products/{product_id}`
+### `DELETE /products/{product_id}`
 
 <h3 id="remove_product_products__product_id__delete-parameters">Parameters</h3>
 
