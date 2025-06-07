@@ -282,8 +282,6 @@
 
 ```
 
-HTTPValidationError
-
 ### Properties
 
 | Name   | Type                                        | Required | Restrictions | Description |
