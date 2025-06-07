@@ -35,8 +35,7 @@ pip install -r requirements.txt
 ```bash
 uvicorn src.main:app --reload
 ```
-Visit http://127.0.0.1:8000/docs for the interactive API documentation.
-Visit http://127.0.0.1:8000/redocs for the interactive API documentation.
+Visit http://127.0.0.1:8000/docs, http://127.0.0.1:8000/redoc  for the interactive API documentation.
 
 ## 🐳 Run with Docker
 ### 1. Build Docker Image
@@ -47,7 +46,7 @@ docker build -t make-life-easier-api .
 ```bash
 docker run -p 8000:8000 make-life-easier-api
 ```
-Then visit: http://localhost:8000/docs, http://localhost:8000/redocs
+Then visit: http://localhost:8000/docs, http://localhost:8000/redoc
 
 ## 🗃️ Initialize Sample Data
 ```bash
