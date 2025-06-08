@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from src.core.database import SessionLocal
+from src.exceptions.product_exceptions import ProductNotFoundException
 from src.schemas.product_schema import ProductListResponse, ProductResponse, ProductAdd, ProductEdit
 import src.repositories.product_repository as repository
 
@@ -33,7 +34,7 @@ def get_products(skip: int = Query(0, ge=0),
 def get_product(product_id: int, db: Session = Depends(get_db)):
     product = repository.get_by_id(db, product_id)
     if not product:
-        raise HTTPException(status_code=404, detail="Product not found")
+        raise ProductNotFoundException(product_id=product_id)
     return product
 
 
@@ -46,7 +47,7 @@ def add_product(product: ProductAdd, db: Session = Depends(get_db)):
 def edit_product(product_id: int, product: ProductEdit, db: Session = Depends(get_db)):
     edited = repository.edit(db, product_id, product)
     if not edited:
-        raise HTTPException(status_code=404, detail="Product not found")
+        raise ProductNotFoundException(product_id=product_id)
     return edited
 
 
@@ -54,5 +55,5 @@ def edit_product(product_id: int, product: ProductEdit, db: Session = Depends(ge
 def remove_product(product_id: int, db: Session = Depends(get_db)):
     removed = repository.remove(db, product_id)
     if not removed:
-        raise HTTPException(status_code=404, detail="Product not found")
-    return {"message": "Product deleted"}
+        raise ProductNotFoundException(product_id=product_id)
+    return {"message": "Product deleted successfully"}
