@@ -1,4 +1,5 @@
 from datetime import date
+from decimal import Decimal
 from typing import List
 
 from pydantic import BaseModel
@@ -6,8 +7,10 @@ from pydantic import BaseModel
 
 class ProductBase(BaseModel):
     name: str
+    category_id: int
     image_url: str
-    expiry_date: date
+    price: Decimal
+    expiration_date: date
 
 
 class ProductAdd(ProductBase):
@@ -21,14 +24,18 @@ class ProductEdit(ProductBase):
 class ProductResponse(BaseModel):
     id: int
     name: str
+    category_id: int
+    category_name: str
     image_url: str
-    expiry_date: date
-    added_date: date
+    price: Decimal
+    expiration_date: date
+    purchased_date: date
 
     class Config:
         from_attributes = True  # Pydantic v2
 
 
 class ProductListResponse(BaseModel):
-    total: int
+    total_available: int
+    total_return: int
     items: List[ProductResponse]
