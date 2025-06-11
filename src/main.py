@@ -1,7 +1,9 @@
 from fastapi import FastAPI
+from unicodedata import category
+
 from src.core.database import Base, engine
 from src.exceptions.handlers import register_exception_handlers
-from src.routes import product_route
+from src.routes import category_route, product_route
 from src.utils.openapi import custom_openapi
 
 Base.metadata.create_all(bind=engine)
@@ -11,3 +13,4 @@ app = FastAPI(title="Make Life Easier API", version="1.0", description="Make Lif
 register_exception_handlers(app)
 app.openapi = lambda: custom_openapi(app)
 app.include_router(product_route.router)
+app.include_router(category_route.router)

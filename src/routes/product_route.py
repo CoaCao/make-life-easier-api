@@ -19,7 +19,7 @@ def get_db():
 @router.get("/", response_model=ProductListResponse)
 def get_products(skip: int = Query(0, ge=0),
         limit: int = Query(10, ge=1),
-        sort_by: str = Query("expiry_date", pattern="^(name|expiry_date|added_date)$"),
+        sort_by: str = Query("expiration_date", pattern="^(name|expiration_date|purchased_date)$"),
         sort_order: str = Query("asc", pattern="^(asc|desc)$"),
         name: str| None = Query(None),
         days_to_expire: int | None = Query(None, ge=0),

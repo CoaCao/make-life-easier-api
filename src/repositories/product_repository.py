@@ -8,7 +8,7 @@ from src.schemas.product_schema import ProductAdd, ProductEdit
 
 
 def get_all(db: Session, skip: int = 0, limit: int = 10,
-        sort_by: str = "expiry_date", sort_order: str = "asc",
+        sort_by: str = "expiration_date", sort_order: str = "asc",
         name: str | None = None,
         days_to_expire: int | None = None):
     query = db.query(Product)
@@ -32,7 +32,7 @@ def apply_filters(query: Query,
     if days_to_expire is not None:
         now = datetime.now(UTC).date()
         future = now + timedelta(days=days_to_expire)
-        query = query.filter(Product.expiry_date >= now, Product.expiry_date <= future)
+        query = query.filter(Product.expiration_date >= now, Product.expiration_date <= future)
 
     if name is not None:
         query = query.filter(Product.name.ilike(f"%{name}%"))

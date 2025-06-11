@@ -1,13 +1,16 @@
 from datetime import date
+from decimal import Decimal
 from typing import List
 
 from pydantic import BaseModel
+from sqlalchemy import Numeric
 
 
 class ProductBase(BaseModel):
     name: str
     image_url: str
-    expiry_date: date
+    price: Decimal
+    expiration_date: date
 
 
 class ProductAdd(ProductBase):
@@ -22,8 +25,9 @@ class ProductResponse(BaseModel):
     id: int
     name: str
     image_url: str
-    expiry_date: date
-    added_date: date
+    price: Decimal
+    expiration_date: date
+    purchased_date: date
 
     class Config:
         from_attributes = True  # Pydantic v2
