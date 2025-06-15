@@ -39,3 +39,13 @@ class ProductListResponse(BaseModel):
     total_available: int
     total_return: int
     items: List[ProductResponse]
+
+
+class SpendingByCategory(BaseModel):
+    category_id: int
+    category_name: str
+    total_spent: Decimal
+
+
+class TotalSpending(BaseModel):
+    total_spent: Decimal

@@ -1,8 +1,6 @@
 from typing import Optional
 
 from sqlalchemy.orm import Query, Session
-from starlette import status
-from starlette.exceptions import HTTPException
 
 from src.exceptions.category_exceptions import CategoryExistException, CategoryNotFoundException
 from src.models.category_model import Category

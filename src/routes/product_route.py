@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 import src.repositories.product_repository as repository
 from src.core.database import SessionLocal
-from src.schemas.product_schema import ProductAdd, ProductEdit, ProductListResponse, ProductResponse
+from src.schemas.product_schema import ProductAdd, ProductEdit, ProductListResponse, ProductResponse, SpendingByCategory
 from src.utils.factory import to_product_response
 
 router = APIRouter(prefix="/products", tags=["Products"])
