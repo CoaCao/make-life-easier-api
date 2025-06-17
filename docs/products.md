@@ -12,14 +12,15 @@
 
 <h3 id="get_products_products__get-parameters">Parameters</h3>
 
-| Name           | In    | Type         | Required | Description                       |
-|----------------|-------|--------------|----------|-----------------------------------|
-| skip           | query | integer      | false    | none                              |
-| limit          | query | integer      | false    | none                              |
-| sort_by        | query | string       | false    | name \| expiry_date \| added_date |
-| sort_order     | query | string       | false    | asc \| desc                       |
-| name           | query | string(date) | false    | none                              |
-| days_to_expire | query | string(date) | false    | none                              |
+| Name           | In    | Type    | Required | Description                       |
+|----------------|-------|---------|----------|-----------------------------------|
+| skip           | query | integer | false    | none                              |
+| limit          | query | integer | false    | none                              |
+| sort_by        | query | string  | false    | name \| expiry_date \| added_date |
+| sort_order     | query | string  | false    | asc \| desc                       |
+| category_id    | query | integer | false    | none                              |
+| name           | query | string  | false    | none                              |
+| days_to_expire | query | any     | false    | none                              |
 
 <h3 id="get_products_products__get-responses">Responses</h3>
 
@@ -32,14 +33,18 @@
 
 ```json
 {
-  "total": 0,
-  "items": [
+  "total_available": 0,
+  "total_return": 0,
+  "results": [
     {
       "id": 0,
       "name": "string",
+      "category_id": 0,
+      "category_name": "string",
       "image_url": "string",
-      "expiry_date": "2019-08-24",
-      "added_date": "2019-08-24"
+      "price": "string",
+      "expiration_date": "2019-08-24",
+      "purchased_date": "2019-08-24"
     }
   ]
 }
@@ -49,28 +54,38 @@
 
 ```json
 {
-  "total": 3,
-  "items": [
+  "total_available": 9,
+  "total_return": 3,
+  "results": [
     {
-      "id": 25,
-      "name": "Vitamin C 1000",
-      "image_url": "https://example.com/images/vitamin1.jpg",
-      "expiry_date": "2025-07-10",
-      "added_date": "2025-06-05"
+      "id": 2,
+      "name": "Product 2",
+      "category_id": 2,
+      "category_name": "Drink",
+      "image_url": "https://example.com/images/product_2.jpg",
+      "price": "11.45",
+      "expiration_date": "2025-10-13",
+      "purchased_date": "2025-06-09"
     },
     {
-      "id": 26,
-      "name": "Vitamin E 100",
-      "image_url": "https://example.com/images/vitamin2.jpg",
-      "expiry_date": "2025-07-10",
-      "added_date": "2025-06-05"
+      "id": 7,
+      "name": "Product 7",
+      "category_id": 2,
+      "category_name": "Drink",
+      "image_url": "https://example.com/images/product_7.jpg",
+      "price": "79.14",
+      "expiration_date": "2026-01-31",
+      "purchased_date": "2025-06-08"
     },
     {
-      "id": 27,
-      "name": "Vitamin E 100",
-      "image_url": "https://example.com/images/vitamin3.jpg",
-      "expiry_date": "2025-07-10",
-      "added_date": "2025-06-05"
+      "id": 12,
+      "name": "Product 12",
+      "category_id": 2,
+      "category_name": "Drink",
+      "image_url": "https://example.com/images/product_12.jpg",
+      "price": "91.36",
+      "expiration_date": "2026-01-01",
+      "purchased_date": "2025-05-26"
     }
   ]
 }
@@ -87,8 +102,10 @@
 ```json
 {
   "name": "string",
+  "category_id": 0,
   "image_url": "string",
-  "expiry_date": "2019-08-24"
+  "price": 0,
+  "expiration_date": "2019-08-24"
 }
 ```
 
@@ -111,9 +128,12 @@
 {
   "id": 0,
   "name": "string",
+  "category_id": 0,
+  "category_name": "string",
   "image_url": "string",
-  "expiry_date": "2019-08-24",
-  "added_date": "2019-08-24"
+  "price": "string",
+  "expiration_date": "2019-08-24",
+  "purchased_date": "2019-08-24"
 }
 ```
 
@@ -121,11 +141,14 @@
 
 ```json
 {
-  "id": 30,
-  "name": "Canxi 100",
-  "image_url": "https://example.com/images/canxi.jpg",
-  "expiry_date": "2026-02-19",
-  "added_date": "2025-06-07"
+  "id": 28,
+  "name": "Chicken Snack",
+  "category_id": 4,
+  "category_name": "Cosmetic",
+  "image_url": "https://example.com/images/ChickenSnack.jpg",
+  "price": "5.20",
+  "expiration_date": "2025-08-18",
+  "purchased_date": "2025-06-11"
 }
 ```
 
@@ -154,9 +177,12 @@
 {
   "id": 0,
   "name": "string",
+  "category_id": 0,
+  "category_name": "string",
   "image_url": "string",
-  "expiry_date": "2019-08-24",
-  "added_date": "2019-08-24"
+  "price": "string",
+  "expiration_date": "2019-08-24",
+  "purchased_date": "2019-08-24"
 }
 ```
 
@@ -164,11 +190,14 @@
 
 ```json
 {
-  "id": 30,
-  "name": "Canxi 100",
-  "image_url": "https://example.com/images/canxi.jpg",
-  "expiry_date": "2026-02-19",
-  "added_date": "2025-06-07"
+  "id": 28,
+  "name": "Chicken Snack",
+  "category_id": 4,
+  "category_name": "Cosmetic",
+  "image_url": "https://example.com/images/ChickenSnack.jpg",
+  "price": "5.20",
+  "expiration_date": "2025-08-18",
+  "purchased_date": "2025-06-11"
 }
 ```
 
@@ -190,8 +219,10 @@
 ```json
 {
   "name": "string",
+  "category_id": 0,
   "image_url": "string",
-  "expiry_date": "2019-08-24"
+  "price": 0,
+  "expiration_date": "2019-08-24"
 }
 ```
 
@@ -208,9 +239,12 @@
 {
   "id": 0,
   "name": "string",
+  "category_id": 0,
+  "category_name": "string",
   "image_url": "string",
-  "expiry_date": "2019-08-24",
-  "added_date": "2019-08-24"
+  "price": "string",
+  "expiration_date": "2019-08-24",
+  "purchased_date": "2019-08-24"
 }
 ```
 
@@ -218,11 +252,14 @@
 
 ```json
 {
-  "id": 30,
-  "name": "Canxi 100",
-  "image_url": "https://example.com/images/canxi.jpg",
-  "expiry_date": "2026-02-19",
-  "added_date": "2025-06-07"
+  "id": 34,
+  "name": "Chocolate Snack",
+  "category_id": 1,
+  "category_name": "Food",
+  "image_url": "https://example.com/images/Snack.jpg",
+  "price": "45.20",
+  "expiration_date": "2025-07-18",
+  "purchased_date": "2025-06-17"
 }
 ```
 
@@ -257,7 +294,7 @@
 
 ```json
 {
-  "message": "Product deleted"
+  "message": "Product deleted successfully"
 }
 ```
 
@@ -295,19 +332,22 @@
 ```json
 {
   "name": "string",
+  "category_id": 0,
   "image_url": "string",
-  "expiry_date": "2019-08-24"
+  "price": 0,
+  "expiration_date": "2019-08-24"
 }
 
 ```
 
 ### Properties
 
-| Name        | Type         | Required | Restrictions | Description |
-|-------------|--------------|----------|--------------|-------------|
-| name        | string       | true     | none         | none        |
-| image_url   | string       | true     | none         | none        |
-| expiry_date | string(date) | true     | none         | none        |
+| Name        | Type    | Required | Restrictions | Description |
+|-------------|---------|----------|--------------|-------------|
+| name        | string  | true     | none         | none        |
+| category_id | integer | true     | none         | none        |
+| image_url   | string  | true     | none         | none        |
+| price       | any     | true     | none         | none        |
 
 <h2 id="tocS_ProductEdit">ProductEdit</h2>
 <!-- backwards compatibility -->
@@ -316,19 +356,22 @@
 ```json
 {
   "name": "string",
+  "category_id": 0,
   "image_url": "string",
-  "expiry_date": "2019-08-24"
+  "price": 0,
+  "expiration_date": "2019-08-24"
 }
 
 ```
 
 ### Properties
 
-| Name        | Type         | Required | Restrictions | Description |
-|-------------|--------------|----------|--------------|-------------|
-| name        | string       | true     | none         | none        |
-| image_url   | string       | true     | none         | none        |
-| expiry_date | string(date) | true     | none         | none        |
+| Name        | Type    | Required | Restrictions | Description |
+|-------------|---------|----------|--------------|-------------|
+| name        | string  | true     | none         | none        |
+| category_id | integer | true     | none         | none        |
+| image_url   | string  | true     | none         | none        |
+| price       | any     | true     | none         | none        |
 
 <h2 id="tocS_ProductListResponse">ProductListResponse</h2>
 <!-- backwards compatibility -->
@@ -336,14 +379,18 @@
 
 ```json
 {
-  "total": 0,
-  "items": [
+  "total_available": 0,
+  "total_return": 0,
+  "results": [
     {
       "id": 0,
       "name": "string",
+      "category_id": 0,
+      "category_name": "string",
       "image_url": "string",
-      "expiry_date": "2019-08-24",
-      "added_date": "2019-08-24"
+      "price": "string",
+      "expiration_date": "2019-08-24",
+      "purchased_date": "2019-08-24"
     }
   ]
 }
@@ -352,10 +399,11 @@
 
 ### Properties
 
-| Name  | Type                                        | Required | Restrictions | Description |
-|-------|---------------------------------------------|----------|--------------|-------------|
-| total | integer                                     | true     | none         | none        |
-| items | [[ProductResponse](#schemaproductresponse)] | true     | none         | none        |
+| Name            | Type                                        | Required | Restrictions | Description |
+|-----------------|---------------------------------------------|----------|--------------|-------------|
+| total_available | integer                                     | true     | none         | none        |
+| total_return    | integer                                     | true     | none         | none        |
+| results         | [[ProductResponse](#schemaproductresponse)] | true     | none         | none        |
 
 <h2 id="tocS_ProductResponse">ProductResponse</h2>
 <!-- backwards compatibility -->
@@ -365,22 +413,28 @@
 {
   "id": 0,
   "name": "string",
+  "category_id": 0,
+  "category_name": "string",
   "image_url": "string",
-  "expiry_date": "2019-08-24",
-  "added_date": "2019-08-24"
+  "price": "string",
+  "expiration_date": "2019-08-24",
+  "purchased_date": "2019-08-24"
 }
 
 ```
 
 ### Properties
 
-| Name        | Type         | Required | Restrictions | Description |
-|-------------|--------------|----------|--------------|-------------|
-| id          | integer      | true     | none         | none        |
-| name        | string       | true     | none         | none        |
-| image_url   | string       | true     | none         | none        |
-| expiry_date | string(date) | true     | none         | none        |
-| added_date  | string(date) | true     | none         | none        |
+| Name            | Type         | Required | Restrictions | Description |
+|-----------------|--------------|----------|--------------|-------------|
+| id              | integer      | true     | none         | none        |
+| name            | string       | true     | none         | none        |
+| category_id     | integer      | true     | none         | none        |
+| category_name   | string       | true     | none         | none        |
+| image_url       | string       | true     | none         | none        |
+| price           | string       | true     | none         | none        |
+| expiration_date | string(date) | true     | none         | none        |
+| purchased_date  | string(date) | true     | none         | none        |
 
 <h2 id="tocS_ValidationError">ValidationError</h2>
 <!-- backwards compatibility -->

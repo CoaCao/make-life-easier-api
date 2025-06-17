@@ -32,7 +32,6 @@
             "schema": {
               "type": "integer",
               "minimum": 1,
-              "default": 10,
               "title": "Limit"
             }
           },
@@ -42,8 +41,8 @@
             "required": false,
             "schema": {
               "type": "string",
-              "pattern": "^(name|expiry_date|added_date)$",
-              "default": "expiry_date",
+              "pattern": "^(name|expiration_date|purchased_date|category_name)$",
+              "default": "expiration_date",
               "title": "Sort By"
             }
           },
@@ -56,6 +55,23 @@
               "pattern": "^(asc|desc)$",
               "default": "asc",
               "title": "Sort Order"
+            }
+          },
+          {
+            "name": "category_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Category Id"
             }
           },
           {
@@ -160,8 +176,8 @@
         "tags": [
           "Products"
         ],
-        "summary": "Get Product",
-        "operationId": "get_product_products__product_id__get",
+        "summary": "Get By Id",
+        "operationId": "get_by_id_products__product_id__get",
         "parameters": [
           {
             "name": "product_id",
@@ -284,10 +300,463 @@
           }
         }
       }
+    },
+    "/categories/": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Get All",
+        "operationId": "get_all_categories__get",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Add Category",
+        "operationId": "add_category_categories__post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryAdd"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/{category_id}": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Get Category",
+        "operationId": "get_category_categories__category_id__get",
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Category Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Edit Category",
+        "operationId": "edit_category_categories__category_id__put",
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Category Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryEdit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Remove Category",
+        "operationId": "remove_category_categories__category_id__delete",
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Category Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/features/categories/purchased": {
+      "get": {
+        "tags": [
+          "Feature"
+        ],
+        "summary": "Get Categories Purchased",
+        "operationId": "get_categories_purchased_features_categories_purchased_get",
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by category ID",
+              "title": "Category Id"
+            },
+            "description": "Filter by category ID"
+          },
+          {
+            "name": "from_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Start date (yyyy-mm-dd)",
+              "title": "From Date"
+            },
+            "description": "Start date (yyyy-mm-dd)"
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "End date (yyyy-mm-dd)",
+              "title": "To Date"
+            },
+            "description": "End date (yyyy-mm-dd)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SpendingByCategory"
+                  },
+                  "title": "Response Get Categories Purchased Features Categories Purchased Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/features/products/purchased": {
+      "get": {
+        "tags": [
+          "Feature"
+        ],
+        "summary": "Get Products Purchased",
+        "operationId": "get_products_purchased_features_products_purchased_get",
+        "parameters": [
+          {
+            "name": "from_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Start date (yyyy-mm-dd)",
+              "title": "From Date"
+            },
+            "description": "Start date (yyyy-mm-dd)"
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "End date (yyyy-mm-dd)",
+              "title": "To Date"
+            },
+            "description": "End date (yyyy-mm-dd)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TotalSpending"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "CategoryAdd": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "CategoryAdd"
+      },
+      "CategoryEdit": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "CategoryEdit"
+      },
+      "CategoryListResponse": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CategoryResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "items"
+        ],
+        "title": "CategoryListResponse"
+      },
+      "CategoryResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "created_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Created Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "created_date"
+        ],
+        "title": "CategoryResponse"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -307,21 +776,38 @@
             "type": "string",
             "title": "Name"
           },
+          "category_id": {
+            "type": "integer",
+            "title": "Category Id"
+          },
           "image_url": {
             "type": "string",
             "title": "Image Url"
           },
-          "expiry_date": {
+          "price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Price"
+          },
+          "expiration_date": {
             "type": "string",
             "format": "date",
-            "title": "Expiry Date"
+            "title": "Expiration Date"
           }
         },
         "type": "object",
         "required": [
           "name",
+          "category_id",
           "image_url",
-          "expiry_date"
+          "price",
+          "expiration_date"
         ],
         "title": "ProductAdd"
       },
@@ -331,42 +817,64 @@
             "type": "string",
             "title": "Name"
           },
+          "category_id": {
+            "type": "integer",
+            "title": "Category Id"
+          },
           "image_url": {
             "type": "string",
             "title": "Image Url"
           },
-          "expiry_date": {
+          "price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Price"
+          },
+          "expiration_date": {
             "type": "string",
             "format": "date",
-            "title": "Expiry Date"
+            "title": "Expiration Date"
           }
         },
         "type": "object",
         "required": [
           "name",
+          "category_id",
           "image_url",
-          "expiry_date"
+          "price",
+          "expiration_date"
         ],
         "title": "ProductEdit"
       },
       "ProductListResponse": {
         "properties": {
-          "total": {
+          "total_available": {
             "type": "integer",
-            "title": "Total"
+            "title": "Total Available"
           },
-          "items": {
+          "total_return": {
+            "type": "integer",
+            "title": "Total Return"
+          },
+          "results": {
             "items": {
               "$ref": "#/components/schemas/ProductResponse"
             },
             "type": "array",
-            "title": "Items"
+            "title": "Results"
           }
         },
         "type": "object",
         "required": [
-          "total",
-          "items"
+          "total_available",
+          "total_return",
+          "results"
         ],
         "title": "ProductListResponse"
       },
@@ -380,30 +888,81 @@
             "type": "string",
             "title": "Name"
           },
+          "category_id": {
+            "type": "integer",
+            "title": "Category Id"
+          },
+          "category_name": {
+            "type": "string",
+            "title": "Category Name"
+          },
           "image_url": {
             "type": "string",
             "title": "Image Url"
           },
-          "expiry_date": {
+          "price": {
             "type": "string",
-            "format": "date",
-            "title": "Expiry Date"
+            "title": "Price"
           },
-          "added_date": {
+          "expiration_date": {
             "type": "string",
             "format": "date",
-            "title": "Added Date"
+            "title": "Expiration Date"
+          },
+          "purchased_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Purchased Date"
           }
         },
         "type": "object",
         "required": [
           "id",
           "name",
+          "category_id",
+          "category_name",
           "image_url",
-          "expiry_date",
-          "added_date"
+          "price",
+          "expiration_date",
+          "purchased_date"
         ],
         "title": "ProductResponse"
+      },
+      "SpendingByCategory": {
+        "properties": {
+          "category_id": {
+            "type": "integer",
+            "title": "Category Id"
+          },
+          "category_name": {
+            "type": "string",
+            "title": "Category Name"
+          },
+          "total_purchased": {
+            "type": "string",
+            "title": "Total Purchased"
+          }
+        },
+        "type": "object",
+        "required": [
+          "category_id",
+          "category_name",
+          "total_purchased"
+        ],
+        "title": "SpendingByCategory"
+      },
+      "TotalSpending": {
+        "properties": {
+          "total_purchased": {
+            "type": "string",
+            "title": "Total Purchased"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_purchased"
+        ],
+        "title": "TotalSpending"
       },
       "ValidationError": {
         "properties": {

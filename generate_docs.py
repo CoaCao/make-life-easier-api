@@ -24,7 +24,7 @@ def generate_html():
 
 def generate_md():
     # subprocess.run(["widdershins", "docs/openapi.json", "-o", "docs/docs.md"], shell=True, check=True)
-    subprocess.run( "widdershins --language_tabs=\[\] --code-samples=false --httpsnippet=false --omitHeader "
+    subprocess.run( "widdershins --language_tabs=[] --code-samples=false --httpsnippet=false --omitHeader "
                     "docs/openapi.json -o "
                     "docs/docs.md",
                    shell=True, check=True)
@@ -33,5 +33,5 @@ def generate_md():
 
 if __name__ == "__main__":
     export_openapi_json()
-    # generate_html()
+    generate_html()
     generate_md()

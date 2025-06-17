@@ -1,144 +1,54 @@
-from datetime import date
-from sqlalchemy.orm import Session
-from src.core.database import Base, SessionLocal, engine
-from src.models.product_model import Product
+import random
+from datetime import date, timedelta
+from decimal import Decimal
 
+from sqlalchemy.orm import Session
+
+from src.core.database import Base, engine, SessionLocal
+from src.models.category_model import Category
+from src.models.product_model import Product
 
 # Create table if not exist
 Base.metadata.create_all(bind=engine)
 
-sample_products = [
-    {
-        "name": "Omega-3 Fish Oil",
-        "image_url": "https://example.com/images/omega3.jpg",
-        "expiry_date": date(2026, 5, 1),
-        "added_date": date(2025, 6, 1),
-    },
-    {
-        "name": "Vitamin C 1000mg",
-        "image_url": "https://example.com/images/vitamin-c.jpg",
-        "expiry_date": date(2025, 12, 20),
-        "added_date": date(2025, 6, 1),
-    },
-    {
-        "name": "Collagen Peptides",
-        "image_url": "https://example.com/images/collagen.jpg",
-        "expiry_date": date(2027, 3, 15),
-        "added_date": date(2025, 6, 1),
-    },
-    {
-        "name": "Multivitamin Gummies",
-        "image_url": "https://example.com/images/gummies.jpg",
-        "expiry_date": date(2025, 11, 5),
-        "added_date": date(2025, 6, 2),
-    },
-    {
-        "name": "Zinc + D3 Complex",
-        "image_url": "https://example.com/images/zinc-d3.jpg",
-        "expiry_date": date(2025, 10, 10),
-        "added_date": date(2025, 6, 2),
-    },
-    {
-        "name": "Hair Growth Serum",
-        "image_url": "https://example.com/images/hair-serum.jpg",
-        "expiry_date": date(2026, 6, 30),
-        "added_date": date(2025, 6, 2),
-    },
-    {
-        "name": "Hydrating Facial Cream",
-        "image_url": "https://example.com/images/facial-cream.jpg",
-        "expiry_date": date(2027, 1, 1),
-        "added_date": date(2025, 6, 3),
-    },
-    {
-        "name": "Retinol Night Serum",
-        "image_url": "https://example.com/images/retinol.jpg",
-        "expiry_date": date(2026, 9, 30),
-        "added_date": date(2025, 6, 3),
-    },
-    {
-        "name": "Turmeric Capsules",
-        "image_url": "https://example.com/images/turmeric.jpg",
-        "expiry_date": date(2026, 8, 25),
-        "added_date": date(2025, 6, 3),
-    },
-    {
-        "name": "Magnesium Glycinate",
-        "image_url": "https://example.com/images/magnesium.jpg",
-        "expiry_date": date(2026, 2, 15),
-        "added_date": date(2025, 6, 4),
-    },
-    {
-        "name": "Herbal Sleep Aid",
-        "image_url": "https://example.com/images/sleep-aid.jpg",
-        "expiry_date": date(2025, 9, 1),
-        "added_date": date(2025, 6, 4),
-    },
-    {
-        "name": "Vitamin D3 5000 IU",
-        "image_url": "https://example.com/images/d3.jpg",
-        "expiry_date": date(2027, 4, 10),
-        "added_date": date(2025, 6, 4),
-    },
-    {
-        "name": "Eye Repair Cream",
-        "image_url": "https://example.com/images/eye-cream.jpg",
-        "expiry_date": date(2026, 12, 1),
-        "added_date": date(2025, 6, 5),
-    },
-    {
-        "name": "Probiotic 30 Billion CFU",
-        "image_url": "https://example.com/images/probiotic.jpg",
-        "expiry_date": date(2026, 7, 20),
-        "added_date": date(2025, 6, 5),
-    },
-    {
-        "name": "Niacinamide Toner",
-        "image_url": "https://example.com/images/toner.jpg",
-        "expiry_date": date(2026, 11, 11),
-        "added_date": date(2025, 6, 5),
-    },
-    {
-        "name": "Whey Protein Isolate",
-        "image_url": "https://example.com/images/whey.jpg",
-        "expiry_date": date(2026, 10, 1),
-        "added_date": date(2025, 6, 6),
-    },
-    {
-        "name": "Joint Support Formula",
-        "image_url": "https://example.com/images/joint-support.jpg",
-        "expiry_date": date(2026, 5, 5),
-        "added_date": date(2025, 6, 6),
-    },
-    {
-        "name": "Hydrating Lip Balm",
-        "image_url": "https://example.com/images/lip-balm.jpg",
-        "expiry_date": date(2027, 3, 18),
-        "added_date": date(2025, 6, 6),
-    },
-    {
-        "name": "Green Tea Extract",
-        "image_url": "https://example.com/images/green-tea.jpg",
-        "expiry_date": date(2026, 8, 1),
-        "added_date": date(2025, 6, 7),
-    },
-    {
-        "name": "Skin Brightening Serum",
-        "image_url": "https://example.com/images/brightening.jpg",
-        "expiry_date": date(2027, 6, 1),
-        "added_date": date(2025, 6, 7),
-    },
+sample_categories = [
+    {'id': 1, 'name': 'Food', 'enabled': 1},
+    {'id': 2, 'name': 'Drink', 'enabled': 1},
+    {'id': 3, 'name': 'Drug', 'enabled': 1},
+    {'id': 4, 'name': 'Cosmetic', 'enabled': 1},
+    {'id': 5, 'name': 'Supplement', 'enabled': 1}
 ]
+
+# Generate 100 products, 20 for each category
+sample_products = []
+base_date = date.today()
+for i in range(25):
+    category_id = (i % 5) + 1  # 1 to 5
+    product = {
+        "id": i + 1,
+        "name": f"Product {i + 1}",
+        "category_id": category_id,
+        "image_url": f"https://example.com/images/product_{i + 1}.jpg",
+        "price": Decimal(f"{random.uniform(1.0, 100.0):.2f}"),
+        "expiration_date": base_date + timedelta(days=random.randint(30, 365)),
+        "purchased_date": base_date - timedelta(days=random.randint(0, 30)),
+        "enabled": 1
+    }
+    sample_products.append(product)
 
 
 def seed_data():
     db: Session = SessionLocal()
     try:
-        for item in sample_products:
-            product = Product(**item)
-            db.add(product)
+        for item in sample_categories:
+            db.add(Category(**item))
         db.commit()
-        print("✅ Inserted 20 sample products.")
+        print("✅ Inserted 5 sample Categories.")
+
+        for item in sample_products:
+            db.add(Product(**item))
+        db.commit()
+        print("✅ Inserted 25 sample products.")
     except Exception as e:
         db.rollback()
         print("❌ Error inserting products:", e)
