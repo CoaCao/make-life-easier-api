@@ -35,7 +35,7 @@
 }
 ```
 
-## Get purchased on categories
+## Total purchased on each category
 
 <a id="opIdget_purchased_features_categories_purchased_get"></a>
 
