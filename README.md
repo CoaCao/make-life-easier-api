@@ -9,7 +9,10 @@ This is a FastAPI project that manages products (such as supplements and cosmeti
 - Pagination, sorting, and filtering
 - Soft delete with `enabled` field
 - API documentation with Swagger UI
-- [API documentation with Markdown](https://github.com/CoaCao/make-life-easier-api/blob/main/docs/document.md)
+
+- [Products API doc](https://github.com/CoaCao/make-life-easier-api/blob/main/docs/products.md)
+- [Categories API doc](https://github.com/CoaCao/make-life-easier-api/blob/main/docs/categories.md)
+- [Feature API doc](https://github.com/CoaCao/make-life-easier-api/blob/main/docs/feature.md)
 
 ---
 
