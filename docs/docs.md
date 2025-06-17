@@ -26,9 +26,9 @@ Make Life Easier API
 |limit|query|integer|false|none|
 |sort_by|query|string|false|none|
 |sort_order|query|string|false|none|
+|category_id|query|any|false|none|
 |name|query|any|false|none|
 |days_to_expire|query|any|false|none|
-|category_id|query|any|false|none|
 
 > Example responses
 
@@ -38,7 +38,7 @@ Make Life Easier API
 {
   "total_available": 0,
   "total_return": 0,
-  "items": [
+  "results": [
     {
       "id": 0,
       "name": "string",
@@ -120,17 +120,17 @@ This operation does not require authentication
 This operation does not require authentication
 </aside>
 
-## get_product_products__product_id__get
+## get_by_id_products__product_id__get
 
-<a id="opIdget_product_products__product_id__get"></a>
+<a id="opIdget_by_id_products__product_id__get"></a>
 
 > Code samples
 
 `GET /products/{product_id}`
 
-*Get Product*
+*Get By Id*
 
-<h3 id="get_product_products__product_id__get-parameters">Parameters</h3>
+<h3 id="get_by_id_products__product_id__get-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -153,7 +153,7 @@ This operation does not require authentication
 }
 ```
 
-<h3 id="get_product_products__product_id__get-responses">Responses</h3>
+<h3 id="get_by_id_products__product_id__get-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -477,23 +477,23 @@ This operation does not require authentication
 
 <h1 id="make-life-easier-api-feature">Feature</h1>
 
-## get_spending_features_categories_spending_get
+## get_categories_purchased_features_categories_purchased_get
 
-<a id="opIdget_spending_features_categories_spending_get"></a>
+<a id="opIdget_categories_purchased_features_categories_purchased_get"></a>
 
 > Code samples
 
-`GET /features/categories/spending`
+`GET /features/categories/purchased`
 
-*Get Spending*
+*Get Categories Purchased*
 
-<h3 id="get_spending_features_categories_spending_get-parameters">Parameters</h3>
+<h3 id="get_categories_purchased_features_categories_purchased_get-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |category_id|query|any|false|Filter by category ID|
-|from_date|query|any|false|Start date|
-|to_date|query|any|false|End date|
+|from_date|query|any|true|Start date (yyyy-mm-dd)|
+|to_date|query|any|true|End date (yyyy-mm-dd)|
 
 > Example responses
 
@@ -504,52 +504,52 @@ This operation does not require authentication
   {
     "category_id": 0,
     "category_name": "string",
-    "total_spent": "string"
+    "total_purchased": "string"
   }
 ]
 ```
 
-<h3 id="get_spending_features_categories_spending_get-responses">Responses</h3>
+<h3 id="get_categories_purchased_features_categories_purchased_get-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|Inline|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](#schemahttpvalidationerror)|
 
-<h3 id="get_spending_features_categories_spending_get-responseschema">Response Schema</h3>
+<h3 id="get_categories_purchased_features_categories_purchased_get-responseschema">Response Schema</h3>
 
 Status Code **200**
 
-*Response Get Spending Features Categories Spending Get*
+*Response Get Categories Purchased Features Categories Purchased Get*
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|Response Get Spending Features Categories Spending Get|[[SpendingByCategory](#schemaspendingbycategory)]|false|none|none|
+|Response Get Categories Purchased Features Categories Purchased Get|[[SpendingByCategory](#schemaspendingbycategory)]|false|none|none|
 |» SpendingByCategory|[SpendingByCategory](#schemaspendingbycategory)|false|none|none|
 |»» category_id|integer|true|none|none|
 |»» category_name|string|true|none|none|
-|»» total_spent|string|true|none|none|
+|»» total_purchased|string|true|none|none|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## total_spending_features_products_spending_get
+## get_products_purchased_features_products_purchased_get
 
-<a id="opIdtotal_spending_features_products_spending_get"></a>
+<a id="opIdget_products_purchased_features_products_purchased_get"></a>
 
 > Code samples
 
-`GET /features/products/spending`
+`GET /features/products/purchased`
 
-*Total Spending*
+*Get Products Purchased*
 
-<h3 id="total_spending_features_products_spending_get-parameters">Parameters</h3>
+<h3 id="get_products_purchased_features_products_purchased_get-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|from_date|query|any|false|Start date|
-|to_date|query|any|false|End date|
+|from_date|query|any|true|Start date (yyyy-mm-dd)|
+|to_date|query|any|true|End date (yyyy-mm-dd)|
 
 > Example responses
 
@@ -557,15 +557,15 @@ This operation does not require authentication
 
 ```json
 {
-  "total_spent": "string"
+  "total_purchased": "string"
 }
 ```
 
-<h3 id="total_spending_features_products_spending_get-responses">Responses</h3>
+<h3 id="get_products_purchased_features_products_purchased_get-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[TotalSpending](#schematotalspending)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[TotalPurchased](#schematotalspending)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](#schemahttpvalidationerror)|
 
 <aside class="success">
@@ -809,7 +809,7 @@ continued
 {
   "total_available": 0,
   "total_return": 0,
-  "items": [
+  "results": [
     {
       "id": 0,
       "name": "string",
@@ -833,7 +833,7 @@ ProductListResponse
 |---|---|---|---|---|
 |total_available|integer|true|none|none|
 |total_return|integer|true|none|none|
-|items|[[ProductResponse](#schemaproductresponse)]|true|none|none|
+|results|[[ProductResponse](#schemaproductresponse)]|true|none|none|
 
 <h2 id="tocS_ProductResponse">ProductResponse</h2>
 <!-- backwards compatibility -->
@@ -882,7 +882,7 @@ ProductResponse
 {
   "category_id": 0,
   "category_name": "string",
-  "total_spent": "string"
+  "total_purchased": "string"
 }
 
 ```
@@ -895,29 +895,29 @@ SpendingByCategory
 |---|---|---|---|---|
 |category_id|integer|true|none|none|
 |category_name|string|true|none|none|
-|total_spent|string|true|none|none|
+|total_purchased|string|true|none|none|
 
-<h2 id="tocS_TotalSpending">TotalSpending</h2>
+<h2 id="tocS_TotalPurchased">TotalPurchased</h2>
 <!-- backwards compatibility -->
 <a id="schematotalspending"></a>
-<a id="schema_TotalSpending"></a>
+<a id="schema_TotalPurchased"></a>
 <a id="tocStotalspending"></a>
 <a id="tocstotalspending"></a>
 
 ```json
 {
-  "total_spent": "string"
+  "total_purchased": "string"
 }
 
 ```
 
-TotalSpending
+TotalPurchased
 
 ### Properties
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|total_spent|string|true|none|none|
+|total_purchased|string|true|none|none|
 
 <h2 id="tocS_ValidationError">ValidationError</h2>
 <!-- backwards compatibility -->

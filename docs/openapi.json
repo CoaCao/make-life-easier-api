@@ -58,6 +58,23 @@
             }
           },
           {
+            "name": "category_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Category Id"
+            }
+          },
+          {
             "name": "name",
             "in": "query",
             "required": false,
@@ -88,23 +105,6 @@
                 }
               ],
               "title": "Days To Expire"
-            }
-          },
-          {
-            "name": "category_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "integer",
-                  "minimum": 1
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Category Id"
             }
           }
         ],
@@ -176,8 +176,8 @@
         "tags": [
           "Products"
         ],
-        "summary": "Get Product",
-        "operationId": "get_product_products__product_id__get",
+        "summary": "Get By Id",
+        "operationId": "get_by_id_products__product_id__get",
         "parameters": [
           {
             "name": "product_id",
@@ -519,13 +519,13 @@
         }
       }
     },
-    "/features/categories/spending": {
+    "/features/categories/purchased": {
       "get": {
         "tags": [
           "Feature"
         ],
-        "summary": "Get Spending",
-        "operationId": "get_spending_features_categories_spending_get",
+        "summary": "Get Categories Purchased",
+        "operationId": "get_categories_purchased_features_categories_purchased_get",
         "parameters": [
           {
             "name": "category_id",
@@ -548,7 +548,7 @@
           {
             "name": "from_date",
             "in": "query",
-            "required": false,
+            "required": true,
             "schema": {
               "anyOf": [
                 {
@@ -559,15 +559,15 @@
                   "type": "null"
                 }
               ],
-              "description": "Start date",
+              "description": "Start date (yyyy-mm-dd)",
               "title": "From Date"
             },
-            "description": "Start date"
+            "description": "Start date (yyyy-mm-dd)"
           },
           {
             "name": "to_date",
             "in": "query",
-            "required": false,
+            "required": true,
             "schema": {
               "anyOf": [
                 {
@@ -578,10 +578,10 @@
                   "type": "null"
                 }
               ],
-              "description": "End date",
+              "description": "End date (yyyy-mm-dd)",
               "title": "To Date"
             },
-            "description": "End date"
+            "description": "End date (yyyy-mm-dd)"
           }
         ],
         "responses": {
@@ -594,7 +594,7 @@
                   "items": {
                     "$ref": "#/components/schemas/SpendingByCategory"
                   },
-                  "title": "Response Get Spending Features Categories Spending Get"
+                  "title": "Response Get Categories Purchased Features Categories Purchased Get"
                 }
               }
             }
@@ -612,18 +612,18 @@
         }
       }
     },
-    "/features/products/spending": {
+    "/features/products/purchased": {
       "get": {
         "tags": [
           "Feature"
         ],
-        "summary": "Total Spending",
-        "operationId": "total_spending_features_products_spending_get",
+        "summary": "Get Products Purchased",
+        "operationId": "get_products_purchased_features_products_purchased_get",
         "parameters": [
           {
             "name": "from_date",
             "in": "query",
-            "required": false,
+            "required": true,
             "schema": {
               "anyOf": [
                 {
@@ -634,15 +634,15 @@
                   "type": "null"
                 }
               ],
-              "description": "Start date",
+              "description": "Start date (yyyy-mm-dd)",
               "title": "From Date"
             },
-            "description": "Start date"
+            "description": "Start date (yyyy-mm-dd)"
           },
           {
             "name": "to_date",
             "in": "query",
-            "required": false,
+            "required": true,
             "schema": {
               "anyOf": [
                 {
@@ -653,10 +653,10 @@
                   "type": "null"
                 }
               ],
-              "description": "End date",
+              "description": "End date (yyyy-mm-dd)",
               "title": "To Date"
             },
-            "description": "End date"
+            "description": "End date (yyyy-mm-dd)"
           }
         ],
         "responses": {
@@ -862,19 +862,19 @@
             "type": "integer",
             "title": "Total Return"
           },
-          "items": {
+          "results": {
             "items": {
               "$ref": "#/components/schemas/ProductResponse"
             },
             "type": "array",
-            "title": "Items"
+            "title": "Results"
           }
         },
         "type": "object",
         "required": [
           "total_available",
           "total_return",
-          "items"
+          "results"
         ],
         "title": "ProductListResponse"
       },
@@ -938,29 +938,29 @@
             "type": "string",
             "title": "Category Name"
           },
-          "total_spent": {
+          "total_purchased": {
             "type": "string",
-            "title": "Total Spent"
+            "title": "Total Purchased"
           }
         },
         "type": "object",
         "required": [
           "category_id",
           "category_name",
-          "total_spent"
+          "total_purchased"
         ],
         "title": "SpendingByCategory"
       },
       "TotalSpending": {
         "properties": {
-          "total_spent": {
+          "total_purchased": {
             "type": "string",
-            "title": "Total Spent"
+            "title": "Total Purchased"
           }
         },
         "type": "object",
         "required": [
-          "total_spent"
+          "total_purchased"
         ],
         "title": "TotalSpending"
       },

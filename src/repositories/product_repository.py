@@ -1,8 +1,7 @@
-from datetime import date, datetime, timedelta, UTC
-from decimal import Decimal
+from datetime import datetime, timedelta, UTC
 from typing import Optional
 
-from sqlalchemy import asc, desc, func
+from sqlalchemy import asc, desc
 from sqlalchemy.orm import Query, Session
 
 from src.exceptions.product_exceptions import ProductNotFoundException
@@ -13,16 +12,13 @@ from src.schemas.product_schema import ProductAdd, ProductEdit, ProductResponse
 
 def get_all(db: Session, skip: int, limit: int,
         sort_by: str = "expiration_date", sort_order: str = "asc",
-        name: str | None = None, category_id: int | None = None, days_to_expire: int | None = None):
+        category_id: int | None = None, name: str | None = None, days_to_expire: int | None = None):
     query = (db.query(Product, Category.name.label("category_name"))
              .join(Category, Product.category_id == Category.id)
              .filter(Category.enabled == 1, Product.enabled == 1))
 
     query = apply_filters(query, name, category_id, days_to_expire)
     total = query.count()
-
-    if total == 0:
-        raise ProductNotFoundException("Not found data with given parameters")
 
     sort_column = getattr(Product, sort_by, None)
     if sort_column:
@@ -47,7 +43,7 @@ def get_all(db: Session, skip: int, limit: int,
         )
         for product, category_name in results
     ]
-    return {"total_available": total, "total_return": len(items), "items": items}
+    return {"total_available": total, "total_return": len(items), "results": items}
 
 
 def apply_filters(query: Query,
@@ -96,60 +92,13 @@ def edit(db: Session, product_id: int, product: ProductEdit):
     for field, value in product.model_dump().items():
         setattr(db_product, field, value)
     db.commit()
-    # db.refresh(db_product)
-    #
-    # return get_by_id(db, product_id)
 
 
 def remove(db: Session, product_id: int):
-    db_product = get_by_id(db, product_id)
+    db_product, category_nam = get_by_id(db, product_id)
 
     if db_product:
         db_product.enabled = 0
         db.commit()
         return db_product
     return None
-
-
-def get_categories_spending(
-        db: Session,
-        from_date: Optional[date] = None,
-        to_date: Optional[date] = None,
-        category_id: Optional[int] = None
-):
-    query = (
-        db.query(
-            Category.id.label("category_id"),
-            Category.name.label("category_name"),
-            func.sum(Product.price).label("total_spent")
-        )
-        .join(Product, Product.category_id == Category.id)
-        .filter(Product.enabled == 1, Category.enabled == 1)
-    )
-
-    if category_id:
-        query = query.filter(Category.id == category_id)
-
-    if from_date:
-        query = query.filter(Product.purchased_date >= from_date)
-    if to_date:
-        query = query.filter(Product.purchased_date <= to_date)
-
-    query = query.group_by(Category.id, Category.name)
-    return query.all()
-
-
-def get_total_spending(
-        db: Session,
-        from_date: Optional[date] = None,
-        to_date: Optional[date] = None,
-) -> Decimal:
-    query = db.query(func.sum(Product.price)).filter(Product.enabled == 1)
-
-    if from_date:
-        query = query.filter(Product.purchased_date >= from_date)
-    if to_date:
-        query = query.filter(Product.purchased_date <= to_date)
-
-    total = query.scalar() or 0
-    return total

@@ -2,23 +2,14 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 import src.repositories.category_repository as repository
-from src.core.database import SessionLocal
-from src.exceptions.category_exceptions import CategoryNotFoundException
+from src.core.database import get_db
 from src.schemas.category_schema import CategoryAdd, CategoryEdit, CategoryListResponse, CategoryResponse
 
 router = APIRouter(prefix="/categories", tags=["Categories"])
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
 @router.get("/", response_model=CategoryListResponse)
-def get_all(db: Session = Depends(get_db), name: str | None = Query(None)):
+def get_all(name: str | None = Query(None), db: Session = Depends(get_db)):
     return repository.get_all(db, name=name)
 
 
