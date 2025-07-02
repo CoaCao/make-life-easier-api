@@ -15,7 +15,7 @@ async def custom_422_handler(
     detail_message = ""
     if exc.errors():
         for error in exc.errors():
-            detail_message = detail_message + f"'{error["loc"][1]}': {error['msg']}. "
+            detail_message = detail_message + f"'{error['loc'][1]}': {error['msg']}. "
     else:
         detail_message = "Invalid input"
 
