@@ -16,3 +16,4 @@ class Product(Base):
     expiration_date = Column(Date)
     purchased_date = Column(Date, default=datetime.now(UTC))
     enabled = Column(Integer, default=1)
+    is_used = Column(Integer, default=0)

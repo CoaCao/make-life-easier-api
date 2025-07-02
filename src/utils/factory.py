@@ -12,4 +12,5 @@ def to_product_response(result) -> ProductResponse:
         price=product.price,
         expiration_date=product.expiration_date,
         purchased_date=product.purchased_date,
+        is_used=product.is_used,
     )

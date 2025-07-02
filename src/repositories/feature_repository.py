@@ -27,14 +27,34 @@ def get_categories_purchased(
 
     if category_id:
         query = query.filter(Category.id == category_id)
-
     if from_date:
         query = query.filter(Product.purchased_date >= from_date)
     if to_date:
         query = query.filter(Product.purchased_date <= to_date)
 
     query = query.group_by(Category.id, Category.name)
-    return query.all()
+
+    results = query.all()
+
+    purchased_query = (db.query(func.sum(Product.price))
+                       .join(Category, Product.category_id == Category.id)
+                       .filter(Category.enabled == 1, Product.enabled == 1)
+                       .filter(Product.purchased_date >= from_date)
+                       .filter(Product.purchased_date <= to_date))
+
+    grand_total = purchased_query.scalar() or 0
+
+    results_with_percent = []
+    for row in results:
+        percent = (row.total_purchased or 0) / grand_total * 100 if grand_total else 0
+        results_with_percent.append({
+            "category_id": row.category_id,
+            "category_name": row.category_name,
+            "total_purchased": row.total_purchased or 0,
+            "percentage": round(percent, 2)
+        })
+
+    return results_with_percent
 
 
 def get_products_purchased(

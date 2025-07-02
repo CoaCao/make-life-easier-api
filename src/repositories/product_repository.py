@@ -1,23 +1,26 @@
 from datetime import datetime, timedelta, UTC
 from typing import Optional
 
-from sqlalchemy import asc, desc
+from sqlalchemy import asc, desc, func
 from sqlalchemy.orm import Query, Session
 
 from src.exceptions.product_exceptions import ProductNotFoundException
 from src.models.category_model import Category
 from src.models.product_model import Product
 from src.schemas.product_schema import ProductAdd, ProductEdit, ProductResponse
+import src.repositories.category_repository as category_repository
 
 
 def get_all(db: Session, skip: int, limit: int,
         sort_by: str = "expiration_date", sort_order: str = "asc",
-        category_id: int | None = None, name: str | None = None, days_to_expire: int | None = None):
+        category_id: int | None = None, name: str | None = None,
+        days_to_expire: int | None = None,
+        is_used: int | None = None):
     query = (db.query(Product, Category.name.label("category_name"))
              .join(Category, Product.category_id == Category.id)
              .filter(Category.enabled == 1, Product.enabled == 1))
 
-    query = apply_filters(query, name, category_id, days_to_expire)
+    query = apply_filters(query, name, category_id, days_to_expire, is_used)
     total = query.count()
 
     sort_column = getattr(Product, sort_by, None)
@@ -40,16 +43,24 @@ def get_all(db: Session, skip: int, limit: int,
             price=product.price,
             expiration_date=product.expiration_date,
             purchased_date=product.purchased_date,
+            is_used=product.is_used,
         )
         for product, category_name in results
     ]
-    return {"total_available": total, "total_return": len(items), "results": items}
+
+    total_purchased = sum(product.price or 0 for product, category_name in results)
+
+    return {"total_available": total,
+            "total_return": len(items),
+            "total_purchased": total_purchased,
+            "results": items}
 
 
 def apply_filters(query: Query,
         name: Optional[str] = None,
         category_id: Optional[int] = None,
-        days_to_expire: Optional[int] = None) -> Query:
+        days_to_expire: Optional[int] = None,
+        is_used: Optional[int] = None) -> Query:
     if name is not None:
         query = query.filter(Product.name.ilike(f"%{name}%"))
 
@@ -60,6 +71,9 @@ def apply_filters(query: Query,
         now = datetime.now(UTC).date()
         future = now + timedelta(days=days_to_expire)
         query = query.filter(Product.expiration_date >= now, Product.expiration_date <= future)
+
+    if is_used is not None:
+        query = query.filter(Product.is_used == is_used)
 
     return query
 
@@ -88,6 +102,8 @@ def add(db: Session, product: ProductAdd):
 
 def edit(db: Session, product_id: int, product: ProductEdit):
     db_product, category_name = get_by_id(db, product_id)
+
+    category_repository.get_by_id(db, product.category_id)
 
     for field, value in product.model_dump().items():
         setattr(db_product, field, value)

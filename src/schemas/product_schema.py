@@ -30,6 +30,7 @@ class ProductResponse(BaseModel):
     price: Decimal
     expiration_date: date
     purchased_date: date
+    is_used: int
 
     class Config:
         from_attributes = True  # Pydantic v2
@@ -38,4 +39,5 @@ class ProductResponse(BaseModel):
 class ProductListResponse(BaseModel):
     total_available: int
     total_return: int
+    total_purchased: Decimal
     results: List[ProductResponse]
