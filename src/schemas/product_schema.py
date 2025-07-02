@@ -18,7 +18,7 @@ class ProductAdd(ProductBase):
 
 
 class ProductEdit(ProductBase):
-    pass
+    is_used: int
 
 
 class ProductResponse(BaseModel):
