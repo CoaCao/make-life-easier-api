@@ -17,12 +17,14 @@ def get_products(skip: int = Query(0, ge=0),
         category_id: int | None = Query(None, ge=1),
         name: str | None = Query(None),
         days_to_expire: int | None = Query(None, ge=0),
+        is_used: int | None = Query(None, ge=0),
         db: Session = Depends(get_db)):
     return repository.get_all(db, skip=skip, limit=limit,
                               sort_by=sort_by, sort_order=sort_order,
                               category_id=category_id,
                               name=name,
-                              days_to_expire=days_to_expire)
+                              days_to_expire=days_to_expire,
+                              is_used=is_used)
 
 
 @router.get("/{product_id}", response_model=ProductResponse)

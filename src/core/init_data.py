@@ -32,7 +32,8 @@ for i in range(25):
         "price": Decimal(f"{random.uniform(1.0, 100.0):.2f}"),
         "expiration_date": base_date + timedelta(days=random.randint(30, 365)),
         "purchased_date": base_date - timedelta(days=random.randint(0, 30)),
-        "enabled": 1
+        "enabled": 1,
+        "is_used": 0,
     }
     sample_products.append(product)
 
