@@ -76,3 +76,10 @@ Object id: f75403f2-bebe-42e2-9154-b8f9ccfe04c1
 Tenant id: 5486b9d7-3cba-42c0-8d35-e750477d9a37
 Value:  dU98Q~~GKnnCdFAcUQ4x7pWh2yUxF77OG0
 
+Secret Google
+-------------------
+tp7uluUbAXPZI-1fNlypOPK7fNxD
+
+client_id
+---------------
+2596818084-8bdl7h5i4b1945b4uji3b6daas6u714d
